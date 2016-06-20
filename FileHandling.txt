@@ -1,0 +1,64 @@
+import java.io.*;
+
+public class FildHandlingTxt {
+	public static void main(String[] args) {
+		//Boss for reading
+		FileReader fr = null;
+		//Assistant for reading
+		BufferedReader br = null;
+		
+		//Boss for Writing
+		FileWriter fw = null;
+		//Assistant for Writing
+		PrintWriter pw = null;
+		
+		//Opening file to read
+		File fileR = new File("C:\\Users\\Prateek Chauhan\\Desktop\\sample.txt");
+		
+		//Opening file to write
+		File fileW = new File("C:\\Users\\Prateek Chauhan\\Desktop\\sampleNew.txt");
+	
+		try	{
+					//Instantiating class references
+					fr = new FileReader(fileR);
+					br = new BufferedReader(fr);
+					fw = new FileWriter(fileW);
+					pw = new PrintWriter(fw);
+					
+					String curLine = "";
+					String prefix = "Ribbon.ClickItem(\"";
+					String str1 = "";
+					while((curLine = br.readLine())!=null)		{
+							//System.out.println(curLine);
+							if(curLine.startsWith(prefix)){
+								
+								String[] strArr = curLine.split("\"");
+								String strMain = strArr[1];
+								strMain = strMain.replace("|", "/");
+								String[] mainNode = strMain.split("/");
+								String strTemp  = "\n" + prefix + mainNode[0] + "\");\n";
+								//str1 = curLine.concat(strTemp + "\n" + curLine + "\n" + strTemp);
+								str1 = curLine.concat(strTemp + "\n" + curLine);
+								//System.out.println(str1);
+
+								pw.println(str1);
+								System.out.println("\n" + str1);
+							}else{
+								pw.println(curLine);
+								System.out.println(curLine);
+							}
+					}
+		}catch(Exception e)	{
+			e.printStackTrace();
+		}
+		
+		finally {
+				try{
+						br.close();
+						pw.close();
+				}catch(Exception e){
+						e.printStackTrace();
+				}
+		}
+	}
+}
